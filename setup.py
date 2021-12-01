@@ -80,7 +80,7 @@ def run_setup(with_binary=True, test_xgboost=True, test_lightgbm=True, test_catb
     extras_require['all'] = list(set(i for val in extras_require.values() for i in val))
 
     setup(
-        name='shap',
+        name='shap031',
         version=find_version("shap", "__init__.py"),
         description='A unified approach to explain the output of any machine learning model.',
         long_description="SHAP (SHapley Additive exPlanations) is a unified approach to explain the output of " + \
