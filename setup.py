@@ -57,7 +57,7 @@ def run_setup(with_binary=True, test_xgboost=True, test_lightgbm=True, test_catb
     ext_modules = []
     if with_binary:
         ext_modules.append(
-            Extension('shap._cext', sources=['shap/_cext.cc'])
+            Extension('shap031._cext', sources=['shap031/_cext.cc'])
         )
 
     tests_require = ['nose']
@@ -81,7 +81,7 @@ def run_setup(with_binary=True, test_xgboost=True, test_lightgbm=True, test_catb
 
     setup(
         name='shap031',
-        version=find_version("shap", "__init__.py"),
+        version=find_version("shap031", "__init__.py"),
         description='A unified approach to explain the output of any machine learning model.',
         long_description="SHAP (SHapley Additive exPlanations) is a unified approach to explain the output of " + \
                          "any machine learning model. SHAP connects game theory with local explanations, uniting " + \
@@ -93,10 +93,10 @@ def run_setup(with_binary=True, test_xgboost=True, test_lightgbm=True, test_catb
         author_email='slund1@cs.washington.edu',
         license='MIT',
         packages=[
-            'shap', 'shap.explainers', 'shap.explainers.other', 'shap.explainers.deep',
-            'shap.plots', 'shap.benchmark'
+            'shap031', 'shap031.explainers', 'shap031.explainers.other', 'shap031.explainers.deep',
+            'shap031.plots', 'shap031.benchmark'
         ],
-        package_data={'shap': ['plots/resources/*', 'tree_shap.h']},
+        package_data={'shap031': ['plots/resources/*', 'tree_shap.h']},
         cmdclass={'build_ext': build_ext},
         setup_requires=['numpy'],
         install_requires=['numpy', 'scipy', 'scikit-learn', 'pandas', 'tqdm>4.25.0'],

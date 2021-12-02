@@ -7,7 +7,7 @@ import scipy.special
 import numpy as np
 import itertools
 
-log = logging.getLogger('shap')
+log = logging.getLogger('shap031')
 
 
 

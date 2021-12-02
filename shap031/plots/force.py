@@ -70,9 +70,9 @@ def force_plot(base_value, shap_values, features=None, feature_names=None, out_n
     if (type(base_value) == np.ndarray or type(base_value) == list):
         if type(shap_values) != list or len(shap_values) != len(base_value):
             raise Exception("In v0.20 force_plot now requires the base value as the first parameter! " \
-                            "Try shap.force_plot(explainer.expected_value, shap_values) or " \
+                            "Try shap031.force_plot(explainer.expected_value, shap_values) or " \
                             "for multi-output models try " \
-                            "shap.force_plot(explainer.expected_value[0], shap_values[0]).")
+                            "shap031.force_plot(explainer.expected_value[0], shap_values[0]).")
 
 
     assert not type(shap_values) == list, "The shap_values arg looks looks multi output, try shap_values[i]."
@@ -142,7 +142,7 @@ def force_plot(base_value, shap_values, features=None, feature_names=None, out_n
             raise Exception("matplotlib = True is not yet supported for force plots with multiple samples!")
         
         if shap_values.shape[0] > 3000:
-            warnings.warn("shap.force_plot is slow for many thousands of rows, try subsampling your data.")
+            warnings.warn("shap031.force_plot is slow for many thousands of rows, try subsampling your data.")
 
         exps = []
         for k in range(shap_values.shape[0]):
@@ -206,7 +206,7 @@ err_msg = """
 
 
 def initjs():
-    assert have_ipython, "IPython must be installed to use initjs()! Run `pip install ipython` and then restart shap."
+    assert have_ipython, "IPython must be installed to use initjs()! Run `pip install ipython` and then restart shap031."
     bundle_path = os.path.join(os.path.split(__file__)[0], "resources", "bundle.js")
     with io.open(bundle_path, encoding="utf-8") as f:
         bundle_data = f.read()
@@ -227,7 +227,7 @@ def save_html(out_file, plot_html, full_html=True):
     out_file : str or file
         Location or file to be written to
     plot_html : HTML Object
-        HTML object returned by shap.force_plot()
+        HTML object returned by shap031.force_plot()
     full_html : boolean (default: True)
         If True, writes a complete HTML document starting 
         with an <html> tag. If False, only script and div
@@ -344,7 +344,7 @@ class SimpleListVisualizer:
         }
 
     def html(self):
-        assert have_ipython, "IPython must be installed to use this visualizer! Run `pip install ipython` and then restart shap."
+        assert have_ipython, "IPython must be installed to use this visualizer! Run `pip install ipython` and then restart shap031."
         return HTML("""
 <div id='{id}'>{err_msg}</div>
  <script>
@@ -378,7 +378,7 @@ class AdditiveForceVisualizer:
         }
 
     def html(self, label_margin=20):
-        assert have_ipython, "IPython must be installed to use this visualizer! Run `pip install ipython` and then restart shap."
+        assert have_ipython, "IPython must be installed to use this visualizer! Run `pip install ipython` and then restart shap031."
         self.data["labelMargin"] = label_margin
         return HTML("""
 <div id='{id}'>{err_msg}</div>
@@ -435,7 +435,7 @@ class AdditiveForceArrayVisualizer:
                 }
 
     def html(self):
-        assert have_ipython, "IPython must be installed to use this visualizer! Run `pip install ipython` and then restart shap."
+        assert have_ipython, "IPython must be installed to use this visualizer! Run `pip install ipython` and then restart shap031."
         return HTML("""
 <div id='{id}'>{err_msg}</div>
  <script>

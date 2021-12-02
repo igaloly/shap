@@ -12,7 +12,7 @@ from sklearn.cluster import KMeans
 from tqdm.auto import tqdm
 from .explainer import Explainer
 
-log = logging.getLogger('shap')
+log = logging.getLogger('shap031')
 
 
 def kmeans(X, k, round_values=True):
@@ -66,7 +66,7 @@ class KernelExplainer(Explainer):
         computes a the output of the model for those samples. The output can be a vector
         (# samples) or a matrix (# samples x # model outputs).
 
-    data : numpy.array or pandas.DataFrame or shap.common.DenseData or any scipy.sparse matrix
+    data : numpy.array or pandas.DataFrame or shap031.common.DenseData or any scipy.sparse matrix
         The background dataset to use for integrating out features. To determine the impact
         of a feature, that feature is set to "missing" and the change in the model output
         is observed. Since most models aren't designed to handle arbitrary missing data at test
@@ -104,7 +104,7 @@ class KernelExplainer(Explainer):
         # warn users about large background data sets
         if len(self.data.weights) > 100:
             log.warning("Using " + str(len(self.data.weights)) + " background data samples could cause " +
-                        "slower run times. Consider using shap.kmeans(data, K) to summarize the background " +
+                        "slower run times. Consider using shap031.kmeans(data, K) to summarize the background " +
                         "as K weighted samples.")
 
         # init our parameters

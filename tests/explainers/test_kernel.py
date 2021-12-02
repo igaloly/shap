@@ -1,61 +1,61 @@
 import numpy as np
 import scipy as sp
-import shap
+import shap031
 
 
 def test_null_model_small():
-    explainer = shap.KernelExplainer(lambda x: np.zeros(x.shape[0]), np.ones((2, 4)), nsamples=100)
+    explainer = shap031.KernelExplainer(lambda x: np.zeros(x.shape[0]), np.ones((2, 4)), nsamples=100)
     e = explainer.explain(np.ones((1, 4)))
     assert np.sum(np.abs(e)) < 1e-8
 
 def test_null_model():
-    explainer = shap.KernelExplainer(lambda x: np.zeros(x.shape[0]), np.ones((2, 10)), nsamples=100)
+    explainer = shap031.KernelExplainer(lambda x: np.zeros(x.shape[0]), np.ones((2, 10)), nsamples=100)
     e = explainer.explain(np.ones((1, 10)))
     assert np.sum(np.abs(e)) < 1e-8
 
 def test_front_page_model_agnostic():
     import sklearn
-    import shap
+    import shap031
     from sklearn.model_selection import train_test_split
 
     # print the JS visualization code to the notebook
-    shap.initjs()
+    shap031.initjs()
 
     # train a SVM classifier
-    X_train, X_test, Y_train, Y_test = train_test_split(*shap.datasets.iris(), test_size=0.1, random_state=0)
+    X_train, X_test, Y_train, Y_test = train_test_split(*shap031.datasets.iris(), test_size=0.1, random_state=0)
     svm = sklearn.svm.SVC(kernel='rbf', probability=True)
     svm.fit(X_train, Y_train)
 
     # use Kernel SHAP to explain test set predictions
-    explainer = shap.KernelExplainer(svm.predict_proba, X_train, nsamples=100, link="logit")
+    explainer = shap031.KernelExplainer(svm.predict_proba, X_train, nsamples=100, link="logit")
     shap_values = explainer.shap_values(X_test)
 
     # plot the SHAP values for the Setosa output of the first instance
-    shap.force_plot(explainer.expected_value[0], shap_values[0][0, :], X_test.iloc[0, :], link="logit")
+    shap031.force_plot(explainer.expected_value[0], shap_values[0][0, :], X_test.iloc[0, :], link="logit")
 
 def test_front_page_model_agnostic_rank():
     import sklearn
-    import shap
+    import shap031
     from sklearn.model_selection import train_test_split
 
     # print the JS visualization code to the notebook
-    shap.initjs()
+    shap031.initjs()
 
     # train a SVM classifier
-    X_train, X_test, Y_train, Y_test = train_test_split(*shap.datasets.iris(), test_size=0.1, random_state=0)
+    X_train, X_test, Y_train, Y_test = train_test_split(*shap031.datasets.iris(), test_size=0.1, random_state=0)
     svm = sklearn.svm.SVC(kernel='rbf', probability=True)
     svm.fit(X_train, Y_train)
 
     # use Kernel SHAP to explain test set predictions
-    explainer = shap.KernelExplainer(svm.predict_proba, X_train, nsamples=100, link="logit", l1_reg="rank(3)")
+    explainer = shap031.KernelExplainer(svm.predict_proba, X_train, nsamples=100, link="logit", l1_reg="rank(3)")
     shap_values = explainer.shap_values(X_test)
 
     # plot the SHAP values for the Setosa output of the first instance
-    shap.force_plot(explainer.expected_value[0], shap_values[0][0, :], X_test.iloc[0, :], link="logit")
+    shap031.force_plot(explainer.expected_value[0], shap_values[0][0, :], X_test.iloc[0, :], link="logit")
 
 def test_kernel_shap_with_dataframe():
     from sklearn.linear_model import LinearRegression
-    import shap
+    import shap031
     import pandas as pd
     import numpy as np
     np.random.seed(3)
@@ -69,15 +69,15 @@ def test_kernel_shap_with_dataframe():
     linear_model = LinearRegression()
     linear_model.fit(df_X, df_y)
 
-    explainer = shap.KernelExplainer(linear_model.predict, df_X, keep_index=True)
+    explainer = shap031.KernelExplainer(linear_model.predict, df_X, keep_index=True)
     shap_values = explainer.shap_values(df_X)
 
 def test_kernel_shap_with_a1a_sparse_zero_background():
     from sklearn.model_selection import train_test_split
     from sklearn.linear_model import LinearRegression
-    import shap
+    import shap031
 
-    X, y = shap.datasets.a1a() # pylint: disable=unbalanced-tuple-unpacking
+    X, y = shap031.datasets.a1a() # pylint: disable=unbalanced-tuple-unpacking
     x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.01, random_state=0)
     linear_model = LinearRegression()
     linear_model.fit(x_train, y_train)
@@ -85,7 +85,7 @@ def test_kernel_shap_with_a1a_sparse_zero_background():
     _, cols = x_train.shape
     shape = 1, cols
     background = sp.sparse.csr_matrix(shape, dtype=x_train.dtype)
-    explainer = shap.KernelExplainer(linear_model.predict, background)
+    explainer = shap031.KernelExplainer(linear_model.predict, background)
     explainer.shap_values(x_test)
 
 def test_kernel_shap_with_a1a_sparse_nonzero_background():
@@ -93,24 +93,24 @@ def test_kernel_shap_with_a1a_sparse_nonzero_background():
     from sklearn.model_selection import train_test_split
     from sklearn.linear_model import LinearRegression
     from sklearn.utils.sparsefuncs import csc_median_axis_0
-    import shap
+    import shap031
     np.random.seed(0)
 
-    X, y = shap.datasets.a1a() # pylint: disable=unbalanced-tuple-unpacking
+    X, y = shap031.datasets.a1a() # pylint: disable=unbalanced-tuple-unpacking
     x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.01, random_state=0)
     linear_model = LinearRegression()
     linear_model.fit(x_train, y_train)
     # Calculate median of background data
     median_dense = csc_median_axis_0(x_train.tocsc())
     median = sp.sparse.csr_matrix(median_dense)
-    explainer = shap.KernelExplainer(linear_model.predict, median)
+    explainer = shap031.KernelExplainer(linear_model.predict, median)
     shap_values = explainer.shap_values(x_test)
 
     def dense_to_sparse_predict(data):
         sparse_data = sp.sparse.csr_matrix(data)
         return linear_model.predict(sparse_data)
 
-    explainer_dense = shap.KernelExplainer(dense_to_sparse_predict, median_dense.reshape((1, len(median_dense))))
+    explainer_dense = shap031.KernelExplainer(dense_to_sparse_predict, median_dense.reshape((1, len(median_dense))))
     x_test_dense = x_test.toarray()
     shap_values_dense = explainer_dense.shap_values(x_test_dense)
     # Validate sparse and dense result is the same
@@ -120,7 +120,7 @@ def test_kernel_shap_with_high_dim_sparse():
     # verifies we can run on very sparse data produced from feature hashing
     from sklearn.model_selection import train_test_split
     from sklearn.linear_model import LinearRegression
-    import shap
+    import shap031
     remove = ('headers', 'footers', 'quotes')
     categories = [
         'alt.atheism',
@@ -145,22 +145,22 @@ def test_kernel_shap_with_high_dim_sparse():
     rows, cols = x_train.shape
     shape = 1, cols
     background = sp.sparse.csr_matrix(shape, dtype=x_train.dtype)
-    explainer = shap.KernelExplainer(linear_model.predict, background)
+    explainer = shap031.KernelExplainer(linear_model.predict, background)
     shap_values = explainer.shap_values(x_test)
 
 def test_kernel_sparse_vs_dense_multirow_background():
     import sklearn
-    import shap
+    import shap031
     from sklearn.model_selection import train_test_split
     from sklearn.linear_model import LogisticRegression
 
     # train a logistic regression classifier
-    X_train, X_test, Y_train, _ = train_test_split(*shap.datasets.iris(), test_size=0.1, random_state=0)
+    X_train, X_test, Y_train, _ = train_test_split(*shap031.datasets.iris(), test_size=0.1, random_state=0)
     lr = LogisticRegression(solver='lbfgs')
     lr.fit(X_train, Y_train)
 
     # use Kernel SHAP to explain test set predictions with dense data
-    explainer = shap.KernelExplainer(lr.predict_proba, X_train, nsamples=100, link="logit", l1_reg="rank(3)")
+    explainer = shap031.KernelExplainer(lr.predict_proba, X_train, nsamples=100, link="logit", l1_reg="rank(3)")
     shap_values = explainer.shap_values(X_test)
 
     X_sparse_train = sp.sparse.csr_matrix(X_train)
@@ -170,7 +170,7 @@ def test_kernel_sparse_vs_dense_multirow_background():
     lr_sparse.fit(X_sparse_train, Y_train)
 
     # use Kernel SHAP again but with sparse data
-    sparse_explainer = shap.KernelExplainer(lr.predict_proba, X_sparse_train, nsamples=100, link="logit", l1_reg="rank(3)")
+    sparse_explainer = shap031.KernelExplainer(lr.predict_proba, X_sparse_train, nsamples=100, link="logit", l1_reg="rank(3)")
     sparse_shap_values = sparse_explainer.shap_values(X_sparse_test)
 
     assert(np.allclose(shap_values, sparse_shap_values, rtol=1e-05, atol=1e-05))
@@ -191,7 +191,7 @@ def test_linear():
     def f(x):
         return x[:, 0] + 2.0*x[:, 1]
 
-    phi = shap.KernelExplainer(f, x).shap_values(x, l1_reg="num_features(2)", silent=True)
+    phi = shap031.KernelExplainer(f, x).shap_values(x, l1_reg="num_features(2)", silent=True)
     assert phi.shape == x.shape
 
     # corollary 1

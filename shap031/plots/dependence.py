@@ -46,7 +46,7 @@ def dependence_plot(ind, shap_values, features, feature_names=None, display_feat
 
     interaction_index : "auto", None, int, or string
         The index of the feature used to color the plot. The name of a feature can also be passed
-        as a string. If "auto" then shap.common.approximate_interactions is used to pick what
+        as a string. If "auto" then shap031.common.approximate_interactions is used to pick what
         seems to be the strongest interaction (note that to find to true stongest interaction you
         need to compute the SHAP interaction values).
 

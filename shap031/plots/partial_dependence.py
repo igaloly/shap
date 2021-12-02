@@ -1,5 +1,5 @@
-import shap
-from shap.common import convert_name
+import shap031
+from shap031.common import convert_name
 import matplotlib.pyplot as pl
 from mpl_toolkits.mplot3d import Axes3D  
 import numpy as np
@@ -71,7 +71,7 @@ def partial_dependence_plot(ind, model, features, xmin="percentile(0)", xmax="pe
         # the histogram of the data
         fig, ax1 = pl.subplots()
 
-        ax1.plot(xs, vals, color=shap.plots.colors.blue_rgb, linewidth=linewidth, alpha=opacity)
+        ax1.plot(xs, vals, color=shap031.plots.colors.blue_rgb, linewidth=linewidth, alpha=opacity)
 
         ax2 = ax1.twinx()
 
@@ -142,7 +142,7 @@ def partial_dependence_plot(ind, model, features, xmin="percentile(0)", xmax="pe
 #         zs = np.array(fun(np.ravel(X), np.ravel(Y)))
 #         Z = zs.reshape(X.shape)
 
-        ax.plot_surface(x0, x1, vals, cmap=shap.plots.colors.red_blue_transparent)
+        ax.plot_surface(x0, x1, vals, cmap=shap031.plots.colors.red_blue_transparent)
 
         ax.set_xlabel(feature_names[ind0], fontsize=13)
         ax.set_ylabel(feature_names[ind1], fontsize=13)

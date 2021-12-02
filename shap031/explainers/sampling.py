@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import logging
 
-log = logging.getLogger('shap')
+log = logging.getLogger('shap031')
 
 
 class SamplingExplainer(KernelExplainer):

@@ -29,7 +29,7 @@ def test_tf_keras_mnist_cnn():
     from tensorflow.keras.layers import Conv2D, MaxPooling2D
     from tensorflow.keras import backend as K
     import tensorflow as tf
-    import shap
+    import shap031
 
     batch_size = 128
     num_classes = 10
@@ -85,7 +85,7 @@ def test_tf_keras_mnist_cnn():
     # explain by passing the tensorflow inputs and outputs
     np.random.seed(0)
     inds = np.random.choice(x_train.shape[0], 10, replace=False)
-    e = shap.DeepExplainer((model.layers[0].input, model.layers[-1].input), x_train[inds,:,:])
+    e = shap031.DeepExplainer((model.layers[0].input, model.layers[-1].input), x_train[inds, :, :])
     shap_values = e.shap_values(x_test[:1])
 
     sess = tf.keras.backend.get_session()
@@ -105,7 +105,7 @@ def test_tf_keras_linear():
     from tensorflow.keras.layers import Dense, Input
     from tensorflow.keras.optimizers import SGD
     import tensorflow as tf
-    import shap
+    import shap031
 
     np.random.seed(0)
 
@@ -127,7 +127,7 @@ def test_tf_keras_linear():
     fit_coef = model.layers[1].get_weights()[0].T[0]
 
     # explain
-    e = shap.DeepExplainer((model.layers[0].input, model.layers[-1].output), x)
+    e = shap031.DeepExplainer((model.layers[0].input, model.layers[-1].output), x)
     shap_values = e.shap_values(x)
 
     # verify that the explanation follows the equation in LinearExplainer
@@ -151,7 +151,7 @@ def test_keras_imdb_lstm():
     from keras.layers import LSTM
     from keras.layers.embeddings import Embedding
     from keras.preprocessing import sequence
-    import shap
+    import shap031
 
     # load the data from keras
     np.random.seed(7)
@@ -179,7 +179,7 @@ def test_keras_imdb_lstm():
     # explain a prediction and make sure it sums to the difference between the average output
     # over the background samples and the current output
     tf.keras.backend.get_session().run(tf.global_variables_initializer())
-    e = shap.DeepExplainer((mod.layers[0].input, mod.layers[-1].output), background)
+    e = shap031.DeepExplainer((mod.layers[0].input, mod.layers[-1].output), background)
     shap_values = e.shap_values(testx)
     sums = np.array([shap_values[i].sum() for i in range(len(shap_values))])
     sess = tf.keras.backend.get_session()
@@ -200,7 +200,7 @@ def test_tf_keras_imdb_lstm():
     from tensorflow.keras.layers import LSTM
     from tensorflow.keras.layers import Embedding
     from tensorflow.keras.preprocessing import sequence
-    import shap
+    import shap031
 
     # load the data from keras
     np.random.seed(7)
@@ -228,7 +228,7 @@ def test_tf_keras_imdb_lstm():
     # explain a prediction and make sure it sums to the difference between the average output
     # over the background samples and the current output
     tf.keras.backend.get_session().run(tf.global_variables_initializer())
-    e = shap.DeepExplainer((mod.layers[0].input, mod.layers[-1].output), background)
+    e = shap031.DeepExplainer((mod.layers[0].input, mod.layers[-1].output), background)
     shap_values = e.shap_values(testx)
     sums = np.array([shap_values[i].sum() for i in range(len(shap_values))])
     sess = tf.keras.backend.get_session()
@@ -245,7 +245,7 @@ def test_pytorch_mnist_cnn():
     from torchvision import datasets, transforms
     from torch import nn
     from torch.nn import functional as F
-    import shap
+    import shap031
 
     def run_test(train_loader, test_loader, interim):
 
@@ -306,9 +306,9 @@ def test_pytorch_mnist_cnn():
         np.random.seed(0)
         inds = np.random.choice(next_x.shape[0], 20, replace=False)
         if interim:
-            e = shap.DeepExplainer((model, model.conv_layers[0]), next_x[inds, :, :, :])
+            e = shap031.DeepExplainer((model, model.conv_layers[0]), next_x[inds, :, :, :])
         else:
-            e = shap.DeepExplainer(model, next_x[inds, :, :, :])
+            e = shap031.DeepExplainer(model, next_x[inds, :, :, :])
         test_x, test_y = next(iter(test_loader))
         shap_values = e.shap_values(test_x[:1])
 
@@ -357,7 +357,7 @@ def test_pytorch_single_output():
     from torch.nn import functional as F
     from torch.utils.data import TensorDataset, DataLoader
     from sklearn.datasets import load_boston
-    import shap
+    import shap031
 
     X, y = load_boston(return_X_y=True)
     num_features = X.shape[1]
@@ -403,7 +403,7 @@ def test_pytorch_single_output():
     next_x, next_y = next(iter(loader))
     np.random.seed(0)
     inds = np.random.choice(next_x.shape[0], 20, replace=False)
-    e = shap.DeepExplainer(model, next_x[inds, :])
+    e = shap031.DeepExplainer(model, next_x[inds, :])
     test_x, test_y = next(iter(loader))
     shap_values = e.shap_values(test_x[:1])
 
@@ -428,7 +428,7 @@ def test_pytorch_multiple_inputs():
         from torch.nn import functional as F
         from torch.utils.data import TensorDataset, DataLoader
         from sklearn.datasets import load_boston
-        import shap
+        import shap031
 
         X, y = load_boston(return_X_y=True)
         num_features = X.shape[1]
@@ -484,7 +484,7 @@ def test_pytorch_multiple_inputs():
         np.random.seed(0)
         inds = np.random.choice(next_x1.shape[0], 20, replace=False)
         background = [next_x1[inds, :], next_x2[inds, :]]
-        e = shap.DeepExplainer(model, background)
+        e = shap031.DeepExplainer(model, background)
         test_x1, test_x2, test_y = next(iter(loader))
         shap_x1, shap_x2 = e.shap_values([test_x1[:1], test_x2[:1]])
 

@@ -2,7 +2,7 @@ import matplotlib
 import numpy as np
 import shutil
 matplotlib.use('Agg')
-import shap
+import shap031
 
 from .test_deep import _skip_if_no_pytorch, _skip_if_no_tensorflow
 
@@ -17,7 +17,7 @@ def test_tf_keras_mnist_cnn():
     from tensorflow.python.keras.layers import Dense, Dropout, Flatten, Activation
     from tensorflow.python.keras.layers import Conv2D, MaxPooling2D
     from tensorflow.python.keras import backend as K
-    import shap
+    import shap031
 
     batch_size = 128
     num_classes = 10
@@ -73,7 +73,7 @@ def test_tf_keras_mnist_cnn():
     # explain by passing the tensorflow inputs and outputs
     np.random.seed(0)
     inds = np.random.choice(x_train.shape[0], 20, replace=False)
-    e = shap.GradientExplainer((model.layers[0].input, model.layers[-1].input), x_train[inds,:,:])
+    e = shap031.GradientExplainer((model.layers[0].input, model.layers[-1].input), x_train[inds, :, :])
     shap_values = e.shap_values(x_test[:1], nsamples=2000)
 
     sess = tf.keras.backend.get_session()
@@ -94,7 +94,7 @@ def test_pytorch_mnist_cnn():
     from torch import nn
     from torch.nn import functional as F
 
-    import shap
+    import shap031
 
     batch_size=128
     root_dir = 'mnist_data'
@@ -162,9 +162,9 @@ def test_pytorch_mnist_cnn():
         np.random.seed(0)
         inds = np.random.choice(next_x.shape[0], 20, replace=False)
         if interim:
-            e = shap.GradientExplainer((model, model.conv1), next_x[inds, :, :, :])
+            e = shap031.GradientExplainer((model, model.conv1), next_x[inds, :, :, :])
         else:
-            e = shap.GradientExplainer(model, next_x[inds, :, :, :])
+            e = shap031.GradientExplainer(model, next_x[inds, :, :, :])
         test_x, test_y = next(iter(test_loader))
         shap_values = e.shap_values(test_x[:1], nsamples=1000)
 
@@ -192,7 +192,7 @@ def test_pytorch_multiple_inputs():
     _skip_if_no_pytorch()
     import torch
     from torch import nn
-    import shap
+    import shap031
 
     batch_size = 10
     x1 = torch.ones(batch_size, 3)
@@ -210,7 +210,7 @@ def test_pytorch_multiple_inputs():
 
     model = Net()
 
-    e = shap.GradientExplainer(model, background)
+    e = shap031.GradientExplainer(model, background)
     shap_x1, shap_x2 = e.shap_values([x1, x2])
 
     model.eval()
